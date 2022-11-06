@@ -3,6 +3,7 @@ package en.builin;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CounterBitSetImplTest {
 
@@ -24,5 +25,18 @@ class CounterBitSetImplTest {
         counter.count("51.79.86.92");
 
         assertEquals(5, counter.getResult());
+    }
+
+    @Test
+    void failsOnFormatErrors() {
+
+        Counter counter = new CounterBitSetImpl(new IpToIntConverter());
+
+        assertThrows(NullPointerException.class, () -> {
+            counter.count(" ");
+        });
+        assertThrows(NullPointerException.class, () -> {
+            counter.count("555.555.555.555");
+        });
     }
 }

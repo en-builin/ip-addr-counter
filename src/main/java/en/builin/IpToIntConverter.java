@@ -52,16 +52,7 @@ public class IpToIntConverter implements ToIntFunction<String> {
         if (newOctet || tmpValue < 0 || tmpValue >= (1L << ((4 - currByte) * 8))) {
             return null;
         }
-        switch (currByte) {
-            case 0:
-                res[0] = (byte) ((tmpValue >> 24) & 0xff);
-            case 1:
-                res[1] = (byte) ((tmpValue >> 16) & 0xff);
-            case 2:
-                res[2] = (byte) ((tmpValue >>  8) & 0xff);
-            case 3:
-                res[3] = (byte) ((tmpValue >>  0) & 0xff);
-        }
+        res[currByte] = (byte) ((tmpValue >> ((3-currByte) * 8)) & 0xff);
         return res;
     }
 
